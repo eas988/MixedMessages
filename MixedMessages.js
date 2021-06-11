@@ -1,10 +1,10 @@
 //As a musician who understands basic music theory (note locations, first/fifth two note chords, progressions, musical keys)
-//I want the song-generator to create multiple random batches of three or four syllable per line lyrics and a randomized variant of the I–V–vi–IV chord progression in a random key
+//I want the song-generator to create multiple random batches of twelve to sixteen syllables divided into four segments lyrics and a randomized variant of the I–V–vi–IV chord progression in a random key
 //So that I can immediately play a prefabricated song
 
-//Given the song-generator is set to four batches and the three syllable per line lyric option
+//Given the song-generator is set to four batches and the twelve syllables lyric option
 //When the song-generator is run
-//Then a random string of lyrics a total of twelve syllables long (four batches of three syllables), a randomized variant of the I-V-vi-IV chord progression, and a random musical key are generated, ex: [["It's alright", "to tell me", "what you think", "about me"], "I–V–vi–IV", "C major"]
+//Then a random string of lyrics a total of twelve syllables long (four lines of three syllables), a randomized variant of the I-V-vi-IV chord progression, and a random musical key are generated, ex: [["It's alright", "to tell me", "what you think", "about me"], "I–V–vi–IV", "C major"]
 
 //Given the song-generator has produced at least four batches of lyrics, regardless of syllable count
 //When comparing the last word of the second and fourth batches
@@ -30,4 +30,7 @@ function randomizeProgression() {
     return randomProgression;
 }
 
-randomizeProgression();
+
+
+console.log(`Play progression ${randomizeProgression()} in the key of ${getRandomElement(keyArray)} ${getRandomElement(majorMinor)}.`)
+console.log(`Here are some lyrics:`)
