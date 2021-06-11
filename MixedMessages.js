@@ -6,9 +6,15 @@
 //When the song-generator is run
 //Then a random string of lyrics a total of twelve syllables long (four lines of three syllables), a randomized variant of the I-V-vi-IV chord progression, and a random musical key are generated, ex: [["It's alright", "to tell me", "what you think", "about me"], "I–V–vi–IV", "C major"]
 
-//Given the song-generator has produced at least four batches of lyrics, regardless of syllable count
-//When comparing the last word of the second and fourth batches
+//Given the song-generator has produced at least four lines of lyrics, regardless of syllable count
+//When comparing the last word of the second and fourth lines
 //Then the words must rhyme
+
+//Issue: Import and Require are mutually exclusive? Syllables package is import, cannot figure out how to get words.txt without require. Rhymes is also require. 
+//Possible solution - find syllable tracker that is not an import? --- https://www.npmjs.com/package/syllables
+//ToDo: Uninstall all these goddamn dependencies
+
+import {syllable} from 'syllable'
 
 const keyArray = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const majorMinor = ["major", "minor"];
@@ -34,3 +40,24 @@ function randomizeProgression() {
 
 console.log(`Play progression ${randomizeProgression()} in the key of ${getRandomElement(keyArray)} ${getRandomElement(majorMinor)}.`)
 console.log(`Here are some lyrics:`)
+
+
+
+// const fs = require('fs');
+// const { syllable } = require('syllable');
+ 
+// // Returns the path to the word list which is separated by `\n`
+// const wordListPath = require('word-list');
+ 
+// const wordArray = fs.readFileSync(wordListPath, 'utf8').split('\n');
+// //=> […, 'abmhos', 'abnegate', …]
+
+// const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+// wordArray.push(...alphabet);
+
+syllable('Hello')
+
+//function generateLine(syllableCount) {
+
+//}
