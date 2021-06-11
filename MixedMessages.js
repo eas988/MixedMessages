@@ -1,5 +1,5 @@
 //As a musician who understands basic music theory (note locations, first/fifth two note chords, progressions, musical keys)
-//I want the song-generator to create multiple random batches of twelve to sixteen syllables divided into four segments lyrics and a randomized variant of the I–V–vi–IV chord progression in a random key
+//I want the song-generator to create multiple random batches of twelve or sixteen syllables divided into four segments lyrics and a randomized variant of the I–V–vi–IV chord progression in a random key
 //So that I can immediately play a prefabricated song
 
 //Given the song-generator is set to four batches and the twelve syllables lyric option
