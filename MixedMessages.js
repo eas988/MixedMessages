@@ -14,16 +14,19 @@
 //Possible solution - find syllable tracker that is not an import? --- https://www.npmjs.com/package/syllables
 //ToDo: Uninstall all these goddamn dependencies
 
-const fs = require('fs');
-const wordListPath = require('word-list');
+import wordListPath from 'word-list';
+const wordList = wordListPath;
+
+import fs from 'fs';
+
 const wordArray = fs.readFileSync(wordListPath, 'utf8').split('\n');
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 wordArray.push(...alphabet);
 
-const syllables = require('syllables');
+import {syllable} from 'syllable'
 
-const rhymingPart = require('rhyming-part');
-const { get } = require('http');
+import rhyming from 'rhyming-part';
+const {rhymingPart} = rhyming;
 
 const keyArray = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const majorMinor = ["major", "minor"];
@@ -56,8 +59,8 @@ function createLine(num12Or16) {
         let currentSyllableCount = 0;
         let newLine = [];
         while(currentSyllableCount < maxSyllableCount){
-            newWord = getRandomElement(wordArray);
-            newWordSyllableCount = syllables(newWord);
+            let newWord = getRandomElement(wordArray);
+            let newWordSyllableCount = syllable(newWord);
             console.log("Maximum syllable count (should be 12): " + maxSyllableCount)
             console.log("Syllable count of new word: " + newWord + " " + newWordSyllableCount)
             if(newWordSyllableCount > 0 && newWordSyllableCount + currentSyllableCount <= maxSyllableCount) {

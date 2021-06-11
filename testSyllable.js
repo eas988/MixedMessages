@@ -2,9 +2,7 @@ import {syllable} from 'syllable'
 
 console.log(syllable("vehementlying"))
 
-import rhyming from 'rhyming-part';
-const {rhymingPart} = rhyming;
+import pkg from 'rhyming-part';
+const {rhymingPart} = pkg;
 
-
-
-rhyming("helmet")
+rhymingPart("helmet")
