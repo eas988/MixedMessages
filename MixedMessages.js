@@ -50,31 +50,25 @@ function randomizeProgression() {
 
 
 
-// function createLine(num12Or16) {
-//     if(num12Or16 === 12 || num12Or16 === 16) {
-//         let maxSyllableCount = num12Or16;
-//         let currentSyllableCount = 0;
-//         let newLine = [];
-//         while(currentSyllableCount < maxSyllableCount){
-//             let newWord = wordpos.rand()
-//             let newWordSyllableCount = syllable(newWord);
-//             console.log("Maximum syllable count (should be 12): " + maxSyllableCount)
-//             console.log("Syllable count of new word: " + newWord + " " + newWordSyllableCount)
-//             if(newWordSyllableCount > 0 && newWordSyllableCount + currentSyllableCount <= maxSyllableCount) {
-//                 newLine.push(newWord);
-//                 currentSyllableCount += newWordSyllableCount;
-//             }
-//             console.log("Current syllable count:" + currentSyllableCount)
-//         }
-//         console.log(newLine)
-//     } else {
-//         return "Syllable count is incorrect.";
-//     }
-// }
+async function createLine(num12Or16) {
+    if(num12Or16 === 12 || num12Or16 === 16) {
+        let maxSyllableCount = num12Or16;
+        let currentSyllableCount = 0;
+        let newLine = [];
+        while(currentSyllableCount < maxSyllableCount){
+            let newWord = await wordpos.rand()
+            let newWordSyllableCount = syllable(newWord);
+            if(newWordSyllableCount > 0 && newWordSyllableCount + currentSyllableCount <= maxSyllableCount) {
+                newLine.push(newWord[0]);
+                currentSyllableCount += newWordSyllableCount;
+            }
+        }
+        return newLine
+    } else {
+        return "Syllable count is incorrect.";
+    }
+}
 
-// createLine(12)
+let x = await createLine(12)
 
-
-//Issue: cannot get return of value, keep getting pending promise.
-wordpos.rand({startsWith: ""}, console.log);
-
+console.log(x)
