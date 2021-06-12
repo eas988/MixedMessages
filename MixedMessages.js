@@ -13,15 +13,6 @@
 //Issue: Import and Require are mutually exclusive? Syllables package is import, cannot figure out how to get words.txt without require. Rhymes is also require. 
 //Possible solution - find syllable tracker that is not an import? --- https://www.npmjs.com/package/syllables
 
-import wordListPath from 'word-list';
-const wordList = wordListPath;
-
-import fs from 'fs';
-
-const wordArray = fs.readFileSync(wordListPath, 'utf8').split('\n');
-const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-wordArray.push(...alphabet);
-
 import {syllable} from 'syllable'
 
 import rhyming from 'rhyming-part';
@@ -55,31 +46,35 @@ function randomizeProgression() {
 }
 
 //create a string of random words that add up to twelve or sixteen syllables
-//Issue: syllables package does not recognize many words in the english language and defaults to a 0 value. Temporary fix - if registered number of syllables is 0, function will ignore that word.
-//Issue: certain words are returning the incorrect number of syllables (ex: impoverished returns 3, has 4 in reality) Suggested fix - find new package.
 
 
-function createLine(num12Or16) {
-    if(num12Or16 === 12 || num12Or16 === 16) {
-        let maxSyllableCount = num12Or16;
-        let currentSyllableCount = 0;
-        let newLine = [];
-        while(currentSyllableCount < maxSyllableCount){
-            let newWord = getRandomElement(wordArray);
-            let newWordSyllableCount = syllable(newWord);
-            console.log("Maximum syllable count (should be 12): " + maxSyllableCount)
-            console.log("Syllable count of new word: " + newWord + " " + newWordSyllableCount)
-            if(newWordSyllableCount > 0 && newWordSyllableCount + currentSyllableCount <= maxSyllableCount) {
-                newLine.push(newWord);
-                currentSyllableCount += newWordSyllableCount;
-            }
-            console.log("Current syllable count:" + currentSyllableCount)
-        }
-        console.log(newLine)
-    } else {
-        return "Syllable count is incorrect.";
-    }
-}
 
-wordpos.rand(console.log);
-wordpos.rand(console.log)
+
+// function createLine(num12Or16) {
+//     if(num12Or16 === 12 || num12Or16 === 16) {
+//         let maxSyllableCount = num12Or16;
+//         let currentSyllableCount = 0;
+//         let newLine = [];
+//         while(currentSyllableCount < maxSyllableCount){
+//             let newWord = wordpos.rand()
+//             let newWordSyllableCount = syllable(newWord);
+//             console.log("Maximum syllable count (should be 12): " + maxSyllableCount)
+//             console.log("Syllable count of new word: " + newWord + " " + newWordSyllableCount)
+//             if(newWordSyllableCount > 0 && newWordSyllableCount + currentSyllableCount <= maxSyllableCount) {
+//                 newLine.push(newWord);
+//                 currentSyllableCount += newWordSyllableCount;
+//             }
+//             console.log("Current syllable count:" + currentSyllableCount)
+//         }
+//         console.log(newLine)
+//     } else {
+//         return "Syllable count is incorrect.";
+//     }
+// }
+
+// createLine(12)
+
+
+//Issue: cannot get return of value, keep getting pending promise.
+wordpos.rand({startsWith: ""}, console.log);
+
