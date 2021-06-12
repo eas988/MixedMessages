@@ -72,3 +72,5 @@ async function createLine(num12Or16) {
 let x = await createLine(12)
 
 console.log(x)
+let y = await wordpos.isAdjective('awesome')
+console.log(y)
