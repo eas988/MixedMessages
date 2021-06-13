@@ -4,6 +4,7 @@
   "type": "module",
   "main": "MixedMessages.js",
   "dependencies": {
+    "poem-gen": "^0.3.0",
     "rhyming-part": "^1.1.0",
     "syllable": "^5.0.0",
     "syllables": "^1.0.0",

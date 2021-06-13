@@ -24,6 +24,8 @@ WordPOS.defaults = {
 }
 const wordpos = new WordPOS();
 
+import poemgen from 'poem-gen';
+
 
 const keyArray = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const majorMinor = ["major", "minor"];
@@ -72,5 +74,3 @@ async function createLine(num12Or16) {
 let x = await createLine(12)
 
 console.log(x)
-let y = await wordpos.isAdjective('awesome')
-console.log(y)

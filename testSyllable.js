@@ -7,21 +7,9 @@
 
 // rhymingPart("helmet")
 
-import rhyming from 'rhyming-part';
-const {rhymingPart} = rhyming;
 
-import WordPOS from 'wordpos'
-const wordpos = new WordPOS();
+import poemgen from 'poem-gen';
 
 
-wordpos.getAdjectives('The angry bear chased the frightened little squirrel.', function(result){
-    console.log(result);
-});
-// [ 'little', 'angry', 'frightened' ]
 
-wordpos.isAdjective('awesome', function(result){
-    console.log(result);
-});
-// true 'awesome'
-
-wordpos.getPOS()
+console.log(poemgen("C:/Users/eas98/Projects/MixedMessages/node_modules/poem-gen/data/all.json", generateLines))
