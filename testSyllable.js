@@ -1,15 +1,18 @@
-// import {syllable} from 'syllable'
-
-// console.log(syllable("vehementlying"))
-
-// import pkg from 'rhyming-part';
-// const {rhymingPart} = pkg;
-
-// rhymingPart("helmet")
-
-
 import poemgen from 'poem-gen';
+import path from 'path';
+
+const __dirname = path.resolve(path.dirname(''));
+const jsonPath = path.join(__dirname, 'node_modules', 'poem-gen', 'data', 'all.json');
 
 
+async function generateRandomPoem(syllableCount, callBack) {
+    const poemArgs = {
+        repeats: 4,
+        scheme: `a${syllableCount}`,
+        verbose: false
+    };
 
-console.log(poemgen("C:/Users/eas98/Projects/MixedMessages/node_modules/poem-gen/data/all.json", generateLines))
+    return poemgen(jsonPath, poemArgs, callBack);
+}
+
+export { generateRandomPoem };

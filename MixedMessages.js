@@ -13,18 +13,15 @@
 //Issue: Import and Require are mutually exclusive? Syllables package is import, cannot figure out how to get words.txt without require. Rhymes is also require. 
 //Possible solution - find syllable tracker that is not an import? --- https://www.npmjs.com/package/syllables
 
-import {syllable} from 'syllable'
-
-import rhyming from 'rhyming-part';
-const {rhymingPart} = rhyming;
-
+import { syllable } from 'syllable'
+import { generateRandomPoem } from './testSyllable.js';
 import WordPOS from 'wordpos'
+
+
 WordPOS.defaults = {
     stopwords: false
 }
 const wordpos = new WordPOS();
-
-import poemgen from 'poem-gen';
 
 
 const keyArray = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -73,4 +70,33 @@ async function createLine(num12Or16) {
 
 let x = await createLine(12)
 
-console.log(x)
+// console.log(x)
+
+
+generateRandomPoem(6, async (poem) => {
+    const newPoem = [];
+    
+    for (let i = 0;  i < poem.lines.length; i++) {
+        const line = poem.lines[i];
+
+        const newLine = [];
+
+        for (let j = 0; j < line.length; j++) {
+            const word = line[j];
+
+            const isNoun = await wordpos.isNoun(word);
+            
+            if (isNoun) {
+                const newWord = await wordpos.randNoun({});
+                newLine.push(newWord);
+            } else {
+                newLine.push(word);
+            }
+        }
+
+        newPoem.push(newLine);
+    }
+
+    console.log(poem.lines);
+    console.log(newPoem);
+});
