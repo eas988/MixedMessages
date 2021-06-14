@@ -16,7 +16,8 @@
 import { syllable } from 'syllable'
 import { generateRandomPoem } from './testSyllable.js';
 import WordPOS from 'wordpos'
-
+import poemGen from 'poem-gen';
+import rhymingPart from 'rhyming-part';
 
 WordPOS.defaults = {
     stopwords: false
@@ -83,20 +84,50 @@ generateRandomPoem(6, async (poem) => {
 
         for (let j = 0; j < line.length; j++) {
             const word = line[j];
-
+            const wordSyllableCount = syllable(word)
             const isNoun = await wordpos.isNoun(word);
+            const isVerb = await wordpos.isVerb(word);
+            const isAdjective = await wordpos.isAdjective(word);
+            const isAdverb = await wordpos.isAdverb(word);
+            const forbiddenChars = ['']
             
             if (isNoun) {
-                const newWord = await wordpos.randNoun({});
-                newLine.push(newWord);
+                let newWord = ''
+                while (syllable(newWord) != wordSyllableCount) {
+                    newWord = await wordpos.randNoun({});
+                }
+                newLine.push(newWord[0]);
+            } else if (isVerb) {
+                let newWord = ''
+                while (syllable(newWord) != wordSyllableCount) {
+                    newWord = await wordpos.randVerb({});
+                }
+                newLine.push(newWord[0]);
+            } else if (isAdjective) {
+                let newWord = ''
+                while (syllable(newWord) != wordSyllableCount) {
+                    newWord = await wordpos.randAdjective({});
+                }
+                newLine.push(newWord[0]);
+            } else if (isAdverb) {
+                let newWord = ''
+                while (syllable(newWord) != wordSyllableCount) {
+                    newWord = await wordpos.randAdverb({});
+                }
+                newLine.push(newWord[0]);
             } else {
                 newLine.push(word);
             }
         }
-
         newPoem.push(newLine);
     }
 
-    console.log(poem.lines);
-    console.log(newPoem);
-});
+    let unpackedPoem = await newPoem[0];
+    let finalPoem = []
+    for (let k = unpackedPoem.length - 1; k >= 0; k-- ) {
+        finalPoem.push(unpackedPoem[k])
+    }
+    console.log(finalPoem.join(' ') + '.')
+    console.log(poem.toString());
+    }
+);

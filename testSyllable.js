@@ -1,5 +1,6 @@
 import poemgen from 'poem-gen';
 import path from 'path';
+import poemGen from 'poem-gen';
 
 const __dirname = path.resolve(path.dirname(''));
 const jsonPath = path.join(__dirname, 'node_modules', 'poem-gen', 'data', 'all.json');
@@ -7,7 +8,7 @@ const jsonPath = path.join(__dirname, 'node_modules', 'poem-gen', 'data', 'all.j
 
 async function generateRandomPoem(syllableCount, callBack) {
     const poemArgs = {
-        repeats: 4,
+        repeats: 1,
         scheme: `a${syllableCount}`,
         verbose: false
     };
