@@ -84,40 +84,58 @@ generateRandomPoem(6, async (poem) => {
 
         for (let j = 0; j < line.length; j++) {
             const word = line[j];
-            const wordSyllableCount = syllable(word)
-            const isNoun = await wordpos.isNoun(word);
-            const isVerb = await wordpos.isVerb(word);
-            const isAdjective = await wordpos.isAdjective(word);
-            const isAdverb = await wordpos.isAdverb(word);
-            const forbiddenChars = ['']
+            const wordSyllableCount = syllable(word);
+            const forbiddenChars = [''];
             
-            if (isNoun) {
-                let newWord = ''
+            //ToDo: Create function to handle repetitive while looping
+            async function syllableCountCheck(wordToCheck) {
+                let newWord = '';
                 while (syllable(newWord) != wordSyllableCount) {
-                    newWord = await wordpos.randNoun({});
+                    switch (true) {
+                        case await wordpos.isNoun(wordToCheck): newWord = await wordpos.randNoun({});
+                        break;
+                        case await wordpos.isVerb(wordToCheck): newWord = await wordpos.randVerb({});
+                        break;
+                        case await wordpos.isAdjective(wordToCheck): newWord = await wordpos.randAdjective({});
+                        break;
+                        case await wordpos.isAdverb(wordToCheck): newWord = await wordpos.randAdverb({});
+                        break;
+                        default: newWord = [wordToCheck];
+                    }
                 }
+                console.log(newWord[0])
                 newLine.push(newWord[0]);
-            } else if (isVerb) {
-                let newWord = ''
-                while (syllable(newWord) != wordSyllableCount) {
-                    newWord = await wordpos.randVerb({});
-                }
-                newLine.push(newWord[0]);
-            } else if (isAdjective) {
-                let newWord = ''
-                while (syllable(newWord) != wordSyllableCount) {
-                    newWord = await wordpos.randAdjective({});
-                }
-                newLine.push(newWord[0]);
-            } else if (isAdverb) {
-                let newWord = ''
-                while (syllable(newWord) != wordSyllableCount) {
-                    newWord = await wordpos.randAdverb({});
-                }
-                newLine.push(newWord[0]);
-            } else {
-                newLine.push(word);
             }
+
+            syllableCountCheck(word)
+
+        //     if (await wordpos.isNoun(word)) {
+        //         let newWord = ''
+        //         while (syllable(newWord) != wordSyllableCount) {
+        //             newWord = await wordpos.randNoun({});
+        //         }
+        //         newLine.push(newWord[0]);
+        //     } else if (await wordpos.isVerb(word)) {
+        //         let newWord = ''
+        //         while (syllable(newWord) != wordSyllableCount) {
+        //             newWord = await wordpos.randVerb({});
+        //         }
+        //         newLine.push(newWord[0]);
+        //     } else if (await wordpos.isAdjective(word)) {
+        //         let newWord = ''
+        //         while (syllable(newWord) != wordSyllableCount) {
+        //             newWord = await wordpos.randAdjective({});
+        //         }
+        //         newLine.push(newWord[0]);
+        //     } else if (await wordpos.isAdverb(word)) {
+        //         let newWord = ''
+        //         while (syllable(newWord) != wordSyllableCount) {
+        //             newWord = await wordpos.randAdverb({});
+        //         }
+        //         newLine.push(newWord[0]);
+        //     } else {
+        //         newLine.push(word);
+        //     }
         }
         newPoem.push(newLine);
     }
