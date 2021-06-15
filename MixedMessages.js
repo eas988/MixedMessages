@@ -73,6 +73,34 @@ let x = await createLine(12)
 
 // console.log(x)
 
+async function syllableCountCheck(wordToCheck) {
+    let newWord = '';
+    const newLine = [];
+    const wordSyllableCount = syllable(wordToCheck);
+    while (syllable(newWord) != wordSyllableCount) {
+        switch (true) {
+            case await wordpos.isNoun(wordToCheck): newWord = await wordpos.randNoun({});
+            break;
+            case await wordpos.isVerb(wordToCheck): newWord = await wordpos.randVerb({});
+            break;
+            case await wordpos.isAdjective(wordToCheck): newWord = await wordpos.randAdjective({});
+            break;
+            case await wordpos.isAdverb(wordToCheck): newWord = await wordpos.randAdverb({});
+            break;
+            default: newWord = [wordToCheck];
+        }
+    }
+    newLine.push(newWord[0]);
+    return newLine
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+
+let poemRun = 0
+while(poemRun < 4) {
 
 generateRandomPoem(6, async (poem) => {
     const newPoem = [];
@@ -80,64 +108,14 @@ generateRandomPoem(6, async (poem) => {
     for (let i = 0;  i < poem.lines.length; i++) {
         const line = poem.lines[i];
 
-        const newLine = [];
+        const shuffledLine = []
 
         for (let j = 0; j < line.length; j++) {
             const word = line[j];
-            const wordSyllableCount = syllable(word);
             const forbiddenChars = [''];
-            
-            //ToDo: Create function to handle repetitive while looping
-            async function syllableCountCheck(wordToCheck) {
-                let newWord = '';
-                while (syllable(newWord) != wordSyllableCount) {
-                    switch (true) {
-                        case await wordpos.isNoun(wordToCheck): newWord = await wordpos.randNoun({});
-                        break;
-                        case await wordpos.isVerb(wordToCheck): newWord = await wordpos.randVerb({});
-                        break;
-                        case await wordpos.isAdjective(wordToCheck): newWord = await wordpos.randAdjective({});
-                        break;
-                        case await wordpos.isAdverb(wordToCheck): newWord = await wordpos.randAdverb({});
-                        break;
-                        default: newWord = [wordToCheck];
-                    }
-                }
-                console.log(newWord[0])
-                newLine.push(newWord[0]);
-            }
-
-            syllableCountCheck(word)
-
-        //     if (await wordpos.isNoun(word)) {
-        //         let newWord = ''
-        //         while (syllable(newWord) != wordSyllableCount) {
-        //             newWord = await wordpos.randNoun({});
-        //         }
-        //         newLine.push(newWord[0]);
-        //     } else if (await wordpos.isVerb(word)) {
-        //         let newWord = ''
-        //         while (syllable(newWord) != wordSyllableCount) {
-        //             newWord = await wordpos.randVerb({});
-        //         }
-        //         newLine.push(newWord[0]);
-        //     } else if (await wordpos.isAdjective(word)) {
-        //         let newWord = ''
-        //         while (syllable(newWord) != wordSyllableCount) {
-        //             newWord = await wordpos.randAdjective({});
-        //         }
-        //         newLine.push(newWord[0]);
-        //     } else if (await wordpos.isAdverb(word)) {
-        //         let newWord = ''
-        //         while (syllable(newWord) != wordSyllableCount) {
-        //             newWord = await wordpos.randAdverb({});
-        //         }
-        //         newLine.push(newWord[0]);
-        //     } else {
-        //         newLine.push(word);
-        //     }
+            shuffledLine.push(await syllableCountCheck(word));
         }
-        newPoem.push(newLine);
+        newPoem.push(shuffledLine);
     }
 
     let unpackedPoem = await newPoem[0];
@@ -145,7 +123,8 @@ generateRandomPoem(6, async (poem) => {
     for (let k = unpackedPoem.length - 1; k >= 0; k-- ) {
         finalPoem.push(unpackedPoem[k])
     }
-    console.log(finalPoem.join(' ') + '.')
+    console.log(capitalizeFirstLetter(finalPoem.join(' ') + ','))
     console.log(poem.toString());
-    }
-);
+    })
+    poemRun++;
+};
