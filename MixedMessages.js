@@ -125,19 +125,31 @@ async function generateLyrics() {
         }
         lyrics.push(finalPoem)
         if(lyrics.length === 4) {
-            console.log(lyrics) // Do I need this to be multiple arrays for ease of manipulation/application of rhyming module?
+            console.log(lyrics)
             let secondVerseRhyme = lyrics[1][lyrics[1].length -1][0]
             console.log(rhymingPart(secondVerseRhyme))
-            // console.log(rhymingPart(lyrics[0][0]))
             let fourthVerseRhyme = lyrics[3][[lyrics[3].length -1]][0]
             console.log(rhymingPart(fourthVerseRhyme))
+            let replacementRhymeSecond = ''
+            let replacementRhymeFourth = ''
+            while(rhymingPart(replacementRhymeSecond) === null){
+                secondVerseRhyme = await syllableCountCheck(secondVerseRhyme);
+            }
+            lyrics[1][lyrics[1].length -1][0] = replacementRhymeSecond
+            //Error gets thrown on the next line involving unhandled promise rejection.
+            while(rhymingPart(secondVerseRhyme) !== rhymingPart(replacementRhymeFourth)) {
+                replacementRhymeFourth = syllableCountCheck(replacementRhymeFourth).then((value) => {value});
+            }
+            lyrics[3][[lyrics[3].length -1]][0] = replacementRhymeFourth
+            console.log(lyrics)
+            
 
             //Make this into a function outside and test?
-            while(rhymingPart(secondVerseRhyme) != rhymingPart(fourthVerseRhyme)) {
-                fourthVerseRhyme = await syllableCountCheck(fourthVerseRhyme)
-            }
-            lyrics[3][[lyrics[3].length -1]][0] = fourthVerseRhyme
-            console.log(lyrics)
+            // while(rhymingPart(secondVerseRhyme) != rhymingPart(fourthVerseRhyme)) {
+            //     fourthVerseRhyme = await syllableCountCheck(fourthVerseRhyme)
+            // }
+            // lyrics[3][[lyrics[3].length -1]][0] = fourthVerseRhyme
+            // console.log(lyrics)
 
         }
         })
