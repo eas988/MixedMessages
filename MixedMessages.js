@@ -90,7 +90,7 @@ async function syllableCountCheck(wordToCheck) {
             default: newWord = [wordToCheck];
         }
     }
-    newLine.push(newWord[0]);
+    newLine.push(newWord[0]); // wordpos.rand methods return an array of string.
     return newLine
 }
 
@@ -99,32 +99,37 @@ function capitalizeFirstLetter(string) {
   }
 
 
-let poemRun = 0
-while(poemRun < 4) {
+async function generateLyrics() {
+    let poemRun = 0
+    let lyrics = []
+    while(poemRun < 4) {
+    await generateRandomPoem(6, async (poem) => {
+        const newPoem = [];
 
-generateRandomPoem(6, async (poem) => {
-    const newPoem = [];
-    
-    for (let i = 0;  i < poem.lines.length; i++) {
-        const line = poem.lines[i];
+        for (let i = 0;  i < poem.lines.length; i++) {
+            const line = poem.lines[i];
 
-        const shuffledLine = []
+            const shuffledLine = []
 
-        for (let j = 0; j < line.length; j++) {
-            const word = line[j];
-            const forbiddenChars = [''];
-            shuffledLine.push(await syllableCountCheck(word));
+            for (let j = 0; j < line.length; j++) {
+                const word = line[j];
+                shuffledLine.push(await syllableCountCheck(word));
+            }
+            newPoem.push(shuffledLine);
         }
-        newPoem.push(shuffledLine);
-    }
 
-    let unpackedPoem = await newPoem[0];
-    let finalPoem = []
-    for (let k = unpackedPoem.length - 1; k >= 0; k-- ) {
-        finalPoem.push(unpackedPoem[k])
+        let unpackedPoem = await newPoem[0];
+        let finalPoem = []
+        for (let k = unpackedPoem.length - 1; k >= 0; k-- ) {
+            finalPoem.push(unpackedPoem[k])
+        }
+        lyrics.push(capitalizeFirstLetter(finalPoem.join(" ")))
+        if(lyrics.length === 4) {
+            console.log(lyrics)
+        }
+        })
+        poemRun++;
     }
-    console.log(capitalizeFirstLetter(finalPoem.join(' ') + ','))
-    console.log(poem.toString());
-    })
-    poemRun++;
 };
+
+generateLyrics()
