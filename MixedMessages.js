@@ -126,21 +126,27 @@ async function generateLyrics() {
         lyrics.push(finalPoem)
         if(lyrics.length === 4) {
             console.log(lyrics)
-            let secondVerseRhyme = lyrics[1][lyrics[1].length -1][0] //placeholder containing value of second line's final word
+            let secondVerseRhyme = lyrics[1][(lyrics[1].length -1)][0] //placeholder containing value of second line's final word
+            console.log(lyrics[1][(lyrics[1].length -1)][0])
+            console.log(secondVerseRhyme)
             console.log(rhymingPart(secondVerseRhyme)) //Gives me the rhyming schema of the final word in the second verse
-            let fourthVerseRhyme = lyrics[3][[lyrics[3].length -1]][0] //placeholder containing value of fourth line's final word
+            let fourthVerseRhyme = lyrics[3][[(lyrics[3].length -1)]][0] //placeholder containing value of fourth line's final word
+            console.log(fourthVerseRhyme)
             console.log(rhymingPart(fourthVerseRhyme)) // Gives me the rhyming schema of the final word in the fourth verse
-            let replacementRhymeSecond = ['']
-            let replacementRhymeFourth = ['']
+            let replacementRhymeSecond = ''
+            let replacementRhymeFourth = ''
             while(rhymingPart(replacementRhymeSecond) === null){ // Some of the words do not return a rhyming schema, so this will check the second verse's final word to make sure it has one and if not
-                replacementRhymeSecond = await syllableCountCheck(secondVerseRhyme); // runs the syllableCountCheck function to replace it until it does
+                let promisedReplacementArraySecond = await syllableCountCheck(secondVerseRhyme)
+                replacementRhymeSecond = promisedReplacementArraySecond[0]; // runs the syllableCountCheck function to replace it until it does
             }
-            lyrics[1][lyrics[1].length -1][0] = replacementRhymeSecond // replaces second line's final word with the new value of the placeholder secondVerseRhyme
+            lyrics[1][(lyrics[1].length -1)][0] = replacementRhymeSecond // replaces second line's final word with the new value of the placeholder secondVerseRhyme
+            console.log(lyrics[1][(lyrics[1].length -1)][0] + "this is the updated second verse final word")
             //Error gets thrown on the next line involving unhandled promise rejection.
             while(rhymingPart(secondVerseRhyme) !== rhymingPart(replacementRhymeFourth)) { // While the rhyming schema of the final word in the second verse and the final word in the fourth verse do not match,
-                replacementRhymeFourth = await syllableCountCheck(replacementRhymeFourth).then((value) => {value}); // I want to change the value of the final word in the fourth verse until it satisfies the while condition
+                let promisedReplacementArrayFourth = await syllableCountCheck(replacementRhymeFourth);
+                replacementRhymeFourth = promisedReplacementArrayFourth[0]; // I want to change the value of the final word in the fourth verse until it satisfies the while condition
             }
-            lyrics[3][[lyrics[3].length -1]][0] = replacementRhymeFourth // Then I want to update that element in my verse with the new value of replacementRhymeFourth
+            lyrics[3][[(lyrics[3].length -1)]][0] = replacementRhymeFourth // Then I want to update that element in my verse with the new value of replacementRhymeFourth
             console.log(lyrics)
             
 
@@ -158,3 +164,4 @@ async function generateLyrics() {
 };
 
 generateLyrics()
+
