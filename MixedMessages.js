@@ -18,6 +18,7 @@ import { generateRandomPoem } from './testSyllable.js';
 import WordPOS from 'wordpos'
 import poemGen from 'poem-gen';
 import rhymingPart from 'rhyming-part';
+import rhymes from 'rhymes'
 
 WordPOS.defaults = {
     stopwords: false
@@ -98,6 +99,11 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+function rhymingWordMateSelect(word) {
+    let potentialMates = rhymes(word);
+    let mateSelectObject = getRandomElement(potentialMates)
+    return mateSelectObject.word
+};
 
 async function generateLyrics() {
     let poemRun = 0
@@ -138,6 +144,7 @@ async function generateLyrics() {
                 if (promisedReplacementArraySecond[0] === secondVerseRhyme) {
                     let breakoutWordReplacementSecond = await wordpos.rand({})
                     secondVerseRhyme = breakoutWordReplacementSecond[0]
+                    console.log('this happens if the secondVerseRhyme variable returns itself into the syllableCountCheck function')
                 } else {
                     secondVerseRhyme = promisedReplacementArraySecond[0]; // runs the syllableCountCheck function to replace it until it does
                 }
@@ -176,6 +183,9 @@ async function generateLyrics() {
     }
 };
 
-generateLyrics()
+//generateLyrics()
 
 
+
+
+console.log(rhymingWordMateSelect('cat'))
